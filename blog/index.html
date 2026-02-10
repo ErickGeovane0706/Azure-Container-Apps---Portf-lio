@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio | Erick Geovane</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --text-main: #c9d1d9;
+            --accent: #58a6ff; /* Azul estilo VS Code */
+            --border: #30363d;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        header {
+            text-align: center;
+            margin-top: 60px;
+        }
+        h1 { font-size: 2.5rem; margin-bottom: 10px; color: #fff; }
+        .subtitle { color: var(--accent); font-size: 1.2rem; font-weight: bold; }
+
+        .container {
+            max-width: 800px;
+            width: 90%;
+            margin-top: 40px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        h2 { border-bottom: 2px solid var(--border); padding-bottom: 10px; color: #fff; }
+
+        .skills { display: flex; flex-wrap: wrap; gap: 10px; }
+        .tag {
+            background-color: rgba(88, 166, 255, 0.15);
+            color: var(--accent);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(88, 166, 255, 0.3);
+        }
+
+        .timeline-item { margin-bottom: 15px; }
+        .timeline-date { font-size: 0.85rem; color: #8b949e; }
+        .timeline-title { font-weight: bold; color: #fff; }
+
+        a.button {
+            display: inline-block;
+            background-color: var(--accent);
+            color: #0d1117;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+        a.button:hover { transform: scale(1.05); }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="https://github.com/github.png" alt="Foto de Perfil" style="width: 120px; border-radius: 50%; border: 3px solid var(--accent);">
+    <h1>Erick Geovane</h1> <div class="subtitle">Backend Developer | Java & Cloud Enthusiast</div>
+</header>
+
+<div class="container">
+    <div class="card">
+        <h2>🚀 Sobre Mim</h2>
+        <p>
+            Estudante de <strong>Análise e Desenvolvimento de Sistemas</strong> no <strong>IFPB</strong> e apaixonado por resolver problemas com código.
+            Atualmente estagiando na <strong>UPCIGA</strong>, onde aplico conhecimentos em infraestrutura e desenvolvimento.
+            Focado em me tornar um especialista em backend com Java, Spring e arquitetura em Cloud (Azure/AWS).
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>🛠 Tech Stack</h2>
+        <div class="skills">
+            <span class="tag">Java 17+</span>
+            <span class="tag">Spring Boot</span>
+            <span class="tag">Microsoft Azure</span>
+            <span class="tag">Docker</span>
+            <span class="tag">SQL / Bancos de Dados</span>
+            <span class="tag">Inglês (Estudando na Kultivi)</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🚀 Sobre Mim</h2>
+        <p>
+            Atuando na interseção entre <strong>Infraestrutura e Suporte Técnico</strong>, com foco em migração para <strong>Desenvolvimento Backend</strong>.
+            Acredito que um bom desenvolvedor precisa entender profundamente onde a aplicação roda e como o usuário a utiliza.
+            Atualmente, combino conhecimentos de <strong>Windows Server</strong> e <strong>Virtualização</strong> com estudos avançados em <strong>Java/Spring</strong>,
+            <strong>Azure</strong> e automação de fluxos com <strong>n8n</strong>.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>💼 Atuação Atual & Vivência Corporativa </h2>
+
+        <div class="timeline-item">
+            <div class="timeline-title">Analista de Suporte & Infraestrutura (Estágio) @ UPCIGA</div>
+            <div class="timeline-date">Jan 2026 - Presente</div>
+
+            <ul style="margin-top: 10px; color: #8b949e; padding-left: 20px;">
+                <li><strong>Sustentação de Sistemas:</strong> Responsável pela instalação, configuração e manutenção do ERP de varejo da empresa, garantindo alta disponibilidade para os clientes.</li>
+                <li><strong>Infraestrutura:</strong> Gerenciamento de ambientes virtualizados e administração de Windows Server para hospedagem das aplicações.</li>
+                <li><strong>Onboarding & Treinamento:</strong> Atuação direta na capacitação de usuários e implantação do sistema, adquirindo profunda visão das <strong>regras de negócio</strong> do setor varejista.</li>
+                <li><strong>Inovação:</strong> Estudando e mapeando oportunidades de automação de processos internos utilizando <strong>n8n</strong> (Workflow Automation).</li>
+            </ul>
+        </div>
+
+        <hr style="border-color: var(--border); opacity: 0.3; margin: 20px 0;">
+
+        <div class="timeline-title">Projeto Acadêmico: Cloud & DevOps</div>
+        <div class="timeline-date">Fev 2026 - Bootcamps & Projetos Pessoais</div>
+        <p style="font-size: 0.95rem;">
+            Desenvolvimento de infraestrutura moderna utilizando <strong>Azure Container Apps</strong> e Docker.
+            Foco em criar ambientes escaláveis para aplicações Java, aplicando conceitos de CI/CD e CLI.
+        </p>
+    </div>

@@ -1,0 +1,67 @@
+# ==============================================================================
+# Script 02: Build, Push e Deploy da Aplicação Customizada (Portfólio)
+# ==============================================================================
+
+# --- PARTE 1: VARIÁVEIS ---
+$myRG = "containerappslab001"
+$myLocation = "eastus2"          # Região segura
+$acrName = "eggsblog2026"        # Nome único do seu registro
+$envName = "eggs-env-001"
+$appName = "eggs-app"
+$imageName = "eggs-final:v1"
+
+# --- PARTE 2: DOCKER LOCAL (BUILD) ---
+Write-Host "Construindo imagem Docker localmente..."
+docker build -t $imageName .
+
+# (Opcional) Testar localmente antes de subir
+# docker run -d -p 80:80 $imageName
+
+# --- PARTE 3: INFRAESTRUTURA AZURE ---
+Write-Host "Criando Grupo de Recursos ($myRG)..."
+az group create --name $myRG --location $myLocation
+
+Write-Host "Criando Azure Container Registry ($acrName)..."
+az acr create --resource-group $myRG --name $acrName --sku Basic --admin-enabled true
+
+# --- PARTE 4: UPLOAD DA IMAGEM ---
+Write-Host "Logando no ACR..."
+az acr login --name $acrName
+
+Write-Host "Tageando a imagem..."
+docker tag $imageName "$acrName.azurecr.io/$imageName"
+
+Write-Host "Enviando imagem para a nuvem (Push)..."
+docker push "$acrName.azurecr.io/$imageName"
+
+# --- PARTE 5: PREPARAR AMBIENTE ---
+# (Opcional) Limpeza de ambiente antigo se necessário
+# az group delete --name eggsContainerApp --yes --no-wait
+
+Write-Host "Criando Ambiente de Container Apps..."
+# Criamos o ambiente explicitamente para garantir que o Log Analytics seja configurado
+az containerapp env create `
+  --name $envName `
+  --resource-group $myRG `
+  --location $myLocation
+
+# --- PARTE 6: DEPLOY DO APP ---
+Write-Host "Recuperando credenciais do Registro para o Container App..."
+# Isso evita colocar a senha hardcoded no script! Segurança em primeiro lugar.
+$acrUser = az acr credential show --name $acrName --query username -o tsv
+$acrPass = az acr credential show --name $acrName --query "passwords[0].value" -o tsv
+
+Write-Host "Criando/Atualizando o App ($appName)..."
+az containerapp create `
+  --name $appName `
+  --resource-group $myRG `
+  --environment $envName `
+  --image "$acrName.azurecr.io/$imageName" `
+  --registry-server "$acrName.azurecr.io" `
+  --registry-username $acrUser `
+  --registry-password $acrPass `
+  --cpu 0.5 `
+  --memory 1.0Gi `
+  --target-port 80 `
+  --ingress external `
+  --query properties.configuration.ingress.fqdn

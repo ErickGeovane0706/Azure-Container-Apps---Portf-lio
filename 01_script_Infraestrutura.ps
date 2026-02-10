@@ -1,0 +1,44 @@
+# ==============================================================================
+# Script 01: Configuração Inicial e Teste "Hello World"
+# ==============================================================================
+
+# 1. Login e Configuração Inicial
+Write-Host "Iniciando login no Azure..."
+az login
+
+# Instala a extensão necessária para Container Apps (se não tiver)
+az extension add --name containerapp --upgrade --yes
+
+# Registra os provedores de recursos (Obrigatório na primeira vez na assinatura)
+Write-Host "Registrando provedores..."
+az provider register --namespace Microsoft.App
+az provider register --namespace Microsoft.OperationalInsights
+az provider register --namespace Microsoft.ContainerRegistry
+
+# 2. Definição de Variáveis (Configurações Gerais)
+$myRG = "eggsContainerApp-Lab01"
+$myLocation = "eastus2"  # Usando eastus2 para evitar cotas cheias no eastus
+$myAppContainerEnv = "eggs-env-001"
+$myAppName = "eggs-hello-world"
+
+# 3. Criar Grupo de Recursos
+Write-Host "Criando Grupo de Recursos: $myRG..."
+az group create --name $myRG --location $myLocation
+
+# 4. Criar o Ambiente (Environment)
+Write-Host "Criando Ambiente do Container App..."
+az containerapp env create `
+  --name $myAppContainerEnv `
+  --resource-group $myRG `
+  --location $myLocation
+
+# 5. Criar o Container App de Teste (Imagem Padrão Microsoft)
+Write-Host "Implantando App Hello World..."
+az containerapp create `
+  --name $myAppName `
+  --resource-group $myRG `
+  --environment $myAppContainerEnv `
+  --image mcr.microsoft.com/azuredocs/containerapps-helloworld:latest `
+  --target-port 80 `
+  --ingress external `
+  --query properties.configuration.ingress.fqdn
